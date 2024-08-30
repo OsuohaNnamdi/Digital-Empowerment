@@ -3,6 +3,8 @@ package com.LASU.project.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "quizzes")
 public class Quizzes {
@@ -16,26 +18,18 @@ public class Quizzes {
             strategy = GenerationType.SEQUENCE,
             generator = "quizzes_sequence")
     private Long id;
+    private Long lessonId;
+    private String title;
+    private List<Question> question;
 
-    private String questionText;
-    private String options;  // JSON formatted options
-    private String correctAnswer;
-
-    @ManyToOne
-    @JoinColumn(name = "module_id")
-    private Module module;
-
-
-
-    public Quizzes() {
+    public Quizzes(Long id, Long lessonId, String title, List<Question> question) {
+        this.id = id;
+        this.lessonId = lessonId;
+        this.title = title;
+        this.question = question;
     }
 
-    public Quizzes(Long id, String questionText, String options, String correctAnswer, Module module) {
-        this.id = id;
-        this.questionText = questionText;
-        this.options = options;
-        this.correctAnswer = correctAnswer;
-        this.module = module;
+    public Quizzes() {
     }
 
     public Long getId() {
@@ -46,35 +40,27 @@ public class Quizzes {
         this.id = id;
     }
 
-    public String getQuestionText() {
-        return questionText;
+    public Long getLessonId() {
+        return lessonId;
     }
 
-    public void setQuestionText(String questionText) {
-        this.questionText = questionText;
+    public void setLessonId(Long lessonId) {
+        this.lessonId = lessonId;
     }
 
-    public String getOptions() {
-        return options;
+    public String getTitle() {
+        return title;
     }
 
-    public void setOptions(String options) {
-        this.options = options;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getCorrectAnswer() {
-        return correctAnswer;
+    public List<Question> getQuestion() {
+        return question;
     }
 
-    public void setCorrectAnswer(String correctAnswer) {
-        this.correctAnswer = correctAnswer;
-    }
-
-    public Module getModule() {
-        return module;
-    }
-
-    public void setModule(Module module) {
-        this.module = module;
+    public void setQuestion(List<Question> question) {
+        this.question = question;
     }
 }

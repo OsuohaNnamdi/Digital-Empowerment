@@ -3,59 +3,69 @@ package com.LASU.project.Controller;
 import com.LASU.project.Entity.Course;
 import com.LASU.project.Exception.GeneralException;
 import com.LASU.project.Service.CourseService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/courses")
+@RequestMapping("/api/v1/courses")
 public class CourseController {
 
     private final CourseService courseService;
 
-    @Autowired
     public CourseController(CourseService courseService) {
         this.courseService = courseService;
     }
 
     @PostMapping
-    public ResponseEntity<Void> createCourse(@RequestBody Course course) {
+    public ResponseEntity<?> createCourse(@RequestBody Course course) {
         try {
-            courseService.saveCourse(course);
-            return ResponseEntity.ok().build();
-        } catch (IOException e) {
-            return ResponseEntity.status(500).build();
+            Course createdCourse = courseService.createCourse(course);
+            return new ResponseEntity<>(createdCourse, HttpStatus.CREATED);
+        } catch (GeneralException e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @GetMapping
-    public ResponseEntity<List<Course>> getAllCourses() {
+    @GetMapping("/{courseId}")
+    public ResponseEntity<?> getCourseById(@PathVariable Long courseId) {
         try {
-            return ResponseEntity.ok(courseService.findAllCourse());
+            Course course = courseService.getCourseById(courseId);
+            return new ResponseEntity<>(course, HttpStatus.OK);
         } catch (GeneralException e) {
-            return ResponseEntity.status(500).build();
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Course> getCourseById(@PathVariable Long id) {
+    @PutMapping
+    public ResponseEntity<?> updateCourse(@RequestBody Course course) {
         try {
-            return ResponseEntity.ok(courseService.findById(id));
+            Course updatedCourse = courseService.updateCourse(course);
+            return new ResponseEntity<>(updatedCourse, HttpStatus.OK);
         } catch (GeneralException e) {
-            return ResponseEntity.status(404).body(null);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
+    @DeleteMapping("/{courseId}")
+    public ResponseEntity<?> deleteCourse(@PathVariable Long courseId) {
         try {
-            courseService.deleteById(id);
-            return ResponseEntity.ok().build();
+            courseService.deleteCourse(courseId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (GeneralException e) {
-            return ResponseEntity.status(500).build();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<?>> getCoursesByCategory(@PathVariable String category) {
+        try {
+            List<Course> courses = courseService.getCoursesByCategory(category);
+            return new ResponseEntity<>(courses, HttpStatus.OK);
+        } catch (GeneralException e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 }

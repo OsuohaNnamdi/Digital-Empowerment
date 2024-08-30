@@ -1,5 +1,6 @@
 package com.LASU.project.Service.Implementation;
 
+import com.LASU.project.Entity.Question;
 import com.LASU.project.Entity.Quizzes;
 import com.LASU.project.Exception.GeneralException;
 import com.LASU.project.Repository.QuizzesRepository;
@@ -7,6 +8,8 @@ import com.LASU.project.Service.QuizzesService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class QuizImplementation implements QuizzesService {
@@ -17,53 +20,62 @@ public class QuizImplementation implements QuizzesService {
         this.quizzesRepository = quizzesRepository;
     }
 
+
+
     @Override
-    public void saveQuizzes(Quizzes request) throws GeneralException {
-        Quizzes quizzes = new Quizzes();
-        quizzes.setQuestionText(request.getQuestionText());
-        quizzes.setOptions(request.getOptions());
-        quizzes.setModule(request.getModule());
-        quizzes.setCorrectAnswer(request.getCorrectAnswer());
-        quizzesRepository.save(quizzes);
+    public Quizzes createQuiz(Quizzes quiz) throws GeneralException{
+        validateQuiz(quiz);
+        return quizzesRepository.save(quiz);
     }
 
     @Override
-    public void updateQuizzes(Long id, Quizzes request) throws GeneralException {
-        Quizzes quizzes = quizzesRepository.findById(id).orElseThrow(
-                () -> new GeneralException("Quiz with id " + id + " is not present"));
-        quizzes.setQuestionText(request.getQuestionText());
-        quizzes.setOptions(request.getOptions());
-        quizzes.setModule(request.getModule());
-        quizzes.setCorrectAnswer(request.getCorrectAnswer());
-        quizzesRepository.save(quizzes);
-    }
-
-    @Override
-    public List<Quizzes> findAllQuizzes() throws GeneralException {
-        try {
-            return quizzesRepository.findAll();
-        } catch (Exception e) {
-            throw new GeneralException("Error in fetching file" + e);
+    public Quizzes getQuizById(Long quizId) throws GeneralException{
+        Optional<Quizzes> quiz = quizzesRepository.findById(quizId);
+        if (quiz.isEmpty()) {
+            throw new GeneralException("Quiz not found with ID: " + quizId);
         }
+        return quiz.get();
     }
 
     @Override
-    public Quizzes findQuizzesById(Long id) throws GeneralException {
-        return quizzesRepository.findById(id).orElseThrow(() ->
-                new GeneralException("Quiz with id " + id + " is not present"));
+    public Quizzes updateQuiz(Quizzes quiz) throws GeneralException{
+        if (!quizzesRepository.existsById(quiz.getId())) {
+            throw new GeneralException("Quiz not found with ID: " + quiz.getId());
+        }
+        validateQuiz(quiz);
+        return quizzesRepository.save(quiz);
     }
 
     @Override
-    public void deleteQuizzes(Long id) throws GeneralException {
-        quizzesRepository.deleteById(id);
+    public void deleteQuiz(Long quizId) throws GeneralException{
+        if (!quizzesRepository.existsById(quizId)) {
+            throw new GeneralException("Quiz not found with ID: " + quizId);
+        }
+        quizzesRepository.deleteById(quizId);
     }
 
     @Override
-    public List<Quizzes> searchQuizzes(String keyword) throws GeneralException {
-        try {
-            return null; //quizzesRepository.findByQuestionTextContaining(keyword);
-        } catch (Exception e) {
-            throw new GeneralException("Error in searching quizzes: " + e);
+    public List<Quizzes> getQuizzesByLessonId(Long lessonId) throws GeneralException {
+        return quizzesRepository.findByLessonId(lessonId);
+    }
+
+    @Override
+    public List<Question> shuffleQuestions(List<Question> questions) throws GeneralException{
+        Random rand = new Random();
+        for (int i = questions.size() - 1; i > 0; i--) {
+            int index = rand.nextInt(i + 1);
+            Question temp = questions.get(index);
+            questions.set(index, questions.get(i));
+            questions.set(i, temp);
+        }
+        return questions;
+    }
+
+    // Validate the quiz input
+    private void validateQuiz(Quizzes quiz) {
+        // Add validation logic
+        if (quiz.getTitle() == null || quiz.getTitle().isEmpty()) {
+            throw new IllegalArgumentException("Quiz title cannot be empty");
         }
     }
 }

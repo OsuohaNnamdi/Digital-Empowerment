@@ -9,11 +9,14 @@ import java.util.List;
 
 public interface CourseService {
 
-    Course findById(Long id) throws GeneralException;
 
-    void saveCourse(Course course) throws IOException;
+    Course createCourse(Course course) throws GeneralException;
 
-    void deleteById (Long id) throws GeneralException;
+    Course getCourseById(Long courseId) throws GeneralException;
 
-    List<Course> findAllCourse() throws GeneralException;
+    Course updateCourse(Course course) throws GeneralException;
+
+    void deleteCourse(Long courseId) throws GeneralException;
+
+    List<Course> getCoursesByCategory(String category) throws GeneralException;
 }

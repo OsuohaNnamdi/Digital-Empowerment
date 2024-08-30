@@ -17,10 +17,6 @@ public class ProfileMapper implements Function
     public ProfileDTO apply(Profile profile) {
         return new ProfileDTO(
                 profile.getName(),
-                profile.getFaculty(),
-                profile.getGender(),
-                profile.getDepartment(),
-                profile.getOrganisation(),
                 profile.getEmail()
 
         );

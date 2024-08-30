@@ -3,6 +3,7 @@ package com.LASU.project.Service.Implementation;
 import com.LASU.project.Configuration.JWT.JWT;
 import com.LASU.project.DTO.DTO_Mapper.ProfileMapper;
 import com.LASU.project.DTO.ProfileDTO;
+import com.LASU.project.Entity.Enum.AccountType;
 import com.LASU.project.Entity.LoginRequest;
 import com.LASU.project.Entity.LoginResponse;
 import com.LASU.project.Entity.Profile;
@@ -52,12 +53,13 @@ public class ProfileImplementation implements ProfileService
             Profile profile = new Profile();
 
             profile.setName(request.getName());
-            profile.setGender(request.getGender());
             profile.setPassword(passwordEncoder.encode(request.getPassword()));
-            profile.setFaculty(request.getFaculty());
-            profile.setDepartment(request.getDepartment());
             profile.setEmail(request.getEmail());
-            profile.setOrganisation(request.getOrganisation());
+
+            if (request.getAccountType() == null){
+                profile.setAccountType(AccountType.USER);
+            }
+
 
             profileRepository.save(profile);
         }

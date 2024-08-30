@@ -1,6 +1,5 @@
 package com.LASU.project.Entity;
 
-
 import com.LASU.project.Entity.Enum.AccountType;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,44 +8,34 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Entity
-@Table(name = "profile")
-public class Profile implements UserDetails
- {
+@Table(name = "user")
+public class Profile implements UserDetails {
     @Id
     @SequenceGenerator(
-            name = "profile_sequence",
-            sequenceName = "profile_sequence",
+            name = "user_sequence",
+            sequenceName = "user_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "profile_sequence")
+            generator = "user_sequence")
     private Long id;
+
     private String name;
-    private String gender;
-    private String faculty;
-    private String department;
+    private String email;
     private String password;
+
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
-    private String organisation;
-    private String email;
 
-
-
-    public Profile(Long id, String name, String gender, String faculty, String department, String password, AccountType accountType, String organisation, String email) {
+    public Profile(Long id, String name, String email, String password, AccountType accountType) {
         this.id = id;
         this.name = name;
-        this.gender = gender;
-        this.faculty = faculty;
-        this.department = department;
+        this.email = email;
         this.password = password;
         this.accountType = accountType;
-        this.organisation = organisation;
-        this.email = email;
     }
 
     public Profile() {
@@ -68,28 +57,16 @@ public class Profile implements UserDetails
         this.name = name;
     }
 
-    public String getGender() {
-        return gender;
+    public String getEmail() {
+        return email;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getFaculty() {
-        return faculty;
-    }
-
-    public void setFaculty(String faculty) {
-        this.faculty = faculty;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
@@ -104,29 +81,10 @@ public class Profile implements UserDetails
         this.accountType = accountType;
     }
 
-    public String getOrganisation() {
-        return organisation;
-    }
-
-    public void setOrganisation(String organisation) {
-        this.organisation = organisation;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return  List.of( new SimpleGrantedAuthority("Student"));
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
+        // You can adjust the authorities based on accountType if needed
+        return List.of(new SimpleGrantedAuthority(accountType.name()));
     }
 
     @Override
@@ -153,5 +111,4 @@ public class Profile implements UserDetails
     public boolean isEnabled() {
         return true;
     }
-
 }

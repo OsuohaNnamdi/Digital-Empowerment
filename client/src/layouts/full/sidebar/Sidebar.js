@@ -1,12 +1,10 @@
+import React from 'react';
 import { useMediaQuery, Box, Drawer } from '@mui/material';
 import Logo from '../shared/logo/Logo';
 import SidebarItems from './SidebarItems';
-import { Upgrade } from './Updrade';
 
 const Sidebar = (props) => {
-
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
-
   const sidebarWidth = '270px';
 
   if (lgUp) {
@@ -17,13 +15,10 @@ const Sidebar = (props) => {
           flexShrink: 0,
         }}
       >
-        {/* ------------------------------------------- */}
-        {/* Sidebar for desktop */}
-        {/* ------------------------------------------- */}
         <Drawer
           anchor="left"
           open={props.isSidebarOpen}
-          variant="permanent"
+          variant="persistent"
           PaperProps={{
             sx: {
               width: sidebarWidth,
@@ -31,28 +26,13 @@ const Sidebar = (props) => {
             },
           }}
         >
-          {/* ------------------------------------------- */}
-          {/* Sidebar Box */}
-          {/* ------------------------------------------- */}
-          <Box
-            sx={{
-              height: '100%',
-            }}
-          >
-            {/* ------------------------------------------- */}
-            {/* Logo */}
-            {/* ------------------------------------------- */}
+          <Box sx={{ height: '100%' }}>
             <Box px={3}>
               <Logo />
             </Box>
             <Box>
-              {/* ------------------------------------------- */}
-              {/* Sidebar Items */}
-              {/* ------------------------------------------- */}
               <SidebarItems />
-              <Upgrade />
             </Box>
-            
           </Box>
         </Drawer>
       </Box>
@@ -72,15 +52,10 @@ const Sidebar = (props) => {
         },
       }}
     >
-      
       <Box px={2}>
         <Logo />
       </Box>
-      {/* ------------------------------------------- */}
-      {/* Sidebar For Mobile */}
-      {/* ------------------------------------------- */}
       <SidebarItems />
-      <Upgrade />
     </Drawer>
   );
 };

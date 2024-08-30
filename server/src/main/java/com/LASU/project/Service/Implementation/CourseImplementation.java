@@ -5,49 +5,66 @@ import com.LASU.project.Exception.GeneralException;
 import com.LASU.project.Repository.CourseRepository;
 import com.LASU.project.Service.CourseService;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CourseImplementation implements CourseService {
 
-    private final CourseRepository applicationRepository;
+    private final CourseRepository courseRepository;
 
     public CourseImplementation(CourseRepository applicationRepository) {
-        this.applicationRepository = applicationRepository;
+        this.courseRepository = applicationRepository;
     }
 
 
 
     @Override
-    public void saveCourse(Course course) throws GeneralException {
+    public Course createCourse(Course course) throws GeneralException {
+        validateCourse(course);
+        return courseRepository.save(course);
+    }
 
-        applicationRepository.save(course);
 
+    @Override
+    public Course getCourseById(Long courseId) throws GeneralException {
+        Optional<Course> course = courseRepository.findById(courseId);
+        if (course.isEmpty()) {
+            throw new GeneralException("Course not found with ID: " + courseId);
+        }
+        return course.get();
+    }
+
+
+    @Override
+    public Course updateCourse(Course course) throws GeneralException{
+        if (!courseRepository.existsById(course.getId())) {
+            throw new GeneralException("Course not found with ID: " + course.getId());
+        }
+        validateCourse(course);
+        return courseRepository.save(course);
     }
 
     @Override
-    public Course findById(Long id) throws GeneralException {
-
-       return applicationRepository.findById(id)
-               .orElseThrow(()-> new GeneralException("Course Not Found"));
-    }
-    @Override
-    public void deleteById(Long id) throws GeneralException {
-
-        applicationRepository.deleteById(id);
+    public void deleteCourse(Long courseId) throws GeneralException{
+        if (!courseRepository.existsById(courseId)) {
+            throw new GeneralException("Course not found with ID: " + courseId);
+        }
+        courseRepository.deleteById(courseId);
     }
 
     @Override
-    public List<Course> findAllCourse() throws GeneralException {
-        return applicationRepository.findAll();
+    public List<Course> getCoursesByCategory(String category) throws GeneralException {
+        return courseRepository.findByCategory(category);
+    }
 
+
+    private void validateCourse(Course course) {
+
+        if (course.getTitle() == null || course.getTitle().isEmpty()) {
+            throw new IllegalArgumentException("Course title cannot be empty");
+        }
     }
 
 }

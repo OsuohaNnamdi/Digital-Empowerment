@@ -18,17 +18,16 @@ public class Course {
             strategy = GenerationType.SEQUENCE,
             generator = "course_sequence")
     private Long id;
-
     private String title;
+    private String category;
     private String description;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Module> modules;
 
-    public Course(String title, String description, Set<Module> modules) {
+    public Course(Long id, String title, String category, String description) {
+        this.id = id;
         this.title = title;
+        this.category = category;
         this.description = description;
-        this.modules = modules;
     }
 
     public Course() {
@@ -58,11 +57,11 @@ public class Course {
         this.description = description;
     }
 
-    public Set<Module> getModules() {
-        return modules;
+    public String getCategory() {
+        return category;
     }
 
-    public void setModules(Set<Module> modules) {
-        this.modules = modules;
+    public void setCategory(String category) {
+        this.category = category;
     }
 }
