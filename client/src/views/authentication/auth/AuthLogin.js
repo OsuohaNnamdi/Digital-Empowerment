@@ -12,7 +12,7 @@ import {
 import Swal from 'sweetalert2';
 import { Link, useNavigate } from 'react-router-dom';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
-import axiosInstance from '../axiosInstance';
+import axios from 'axios';
 
 const AuthLogin = ({ title, subtitle, subtext }) => {
     const [email, setEmail] = useState('');
@@ -25,7 +25,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
         setLoading(true); // Show spinner
     
         try {
-          const response = await axiosInstance.post('http://localhost:8080/api/v1/login', {
+          const response = await axios.post('http://localhost:8080/api/v1/login', {
             email,
             password
           });

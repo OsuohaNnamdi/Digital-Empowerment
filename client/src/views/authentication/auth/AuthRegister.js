@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Box, Typography, Button, Stack, CircularProgress } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
-import axiosInstance from '../axiosInstance';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 const AuthRegister = ({ title, subtitle, subtext }) => {
     const [name, setName] = useState('');
@@ -15,22 +15,26 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
-            await axiosInstance.post('/register', { name, email, password });
+            await axios.post('http://localhost:8080/api/v1/register', { name, email, password });
         Swal.fire({
         icon: 'success',
         title: 'Registration Successful',
         text: 'You can now log in with your credentials.',
       }).then(() => {
-        // Optionally, redirect the user to the login page or reset the form
+        
         setName("");
         setEmail("");        
         setPassword("");
       });
             navigate('/auth/login'); // Redirect to login page after successful registration
         } catch (error) {
-            console.error('Registration error', error);
-            // Handle registration error (e.g., show a notification)
-        } finally {
+            console.error('Login error', error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Registration Failed',
+              text: 'Invalid email or password.',
+            });
+          } finally {
       setLoading(false); // Hide spinner
     }
     };
@@ -71,6 +75,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
                         fontWeight={600} component="label" htmlFor='password' mb="5px" mt="25px">Password</Typography>
                     <CustomTextField
                         id="password"
+                        type="password"
                         variant="outlined"
                         fullWidth
                         value={password}

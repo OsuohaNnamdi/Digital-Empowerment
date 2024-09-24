@@ -85,12 +85,39 @@ const CourseListingPage = () => { // Pass userRole as prop
                     </Grid>
                 </Scrollbars>
             </Box>
-            <Box mt={4}>
-                <Typography variant="h6" gutterBottom>
-                    More Categories
-                </Typography>
-                {/* Additional categories or content can be added here */}
-            </Box>
+            <Box mt={5} py={5} sx={{ backgroundColor: '#333', color: '#fff' }}>
+        <Container>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={4}>
+              <Typography variant="h6" gutterBottom>
+                About Us
+              </Typography>
+              <Typography variant="body2" color="inherit">
+                We provide high-quality online courses to help you learn new skills and advance your career.
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Typography variant="h6" gutterBottom>
+                Quick Links
+              </Typography>
+              <Typography variant="body2" color="inherit">
+                Home | Courses | About | Contact
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Typography variant="h6" gutterBottom>
+                Contact Us
+              </Typography>
+              <Typography variant="body2" color="inherit">
+                Email: support@tutorialwebsite.com
+              </Typography>
+              <Typography variant="body2" color="inherit">
+                Phone: +123 456 7890
+              </Typography>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
         </Container>
     );
 };

@@ -5,29 +5,32 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "course")
+@Table(name = "courses")
 public class Course {
 
     @Id
     @SequenceGenerator(
-            name = "course_sequence",
-            sequenceName = "course_sequence",
+            name = "courses_sequence",
+            sequenceName = "courses_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "course_sequence")
+            generator = "courses_sequence")
     private Long id;
+
     private String title;
     private String category;
     private String description;
+    private String imageUrl;
 
 
-    public Course(Long id, String title, String category, String description) {
+    public Course(Long id, String title, String category, String description, String imageUrl) {
         this.id = id;
         this.title = title;
         this.category = category;
         this.description = description;
+        this.imageUrl = imageUrl;
     }
 
     public Course() {
@@ -63,5 +66,13 @@ public class Course {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

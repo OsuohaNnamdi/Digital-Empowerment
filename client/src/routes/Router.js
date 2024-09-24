@@ -8,6 +8,8 @@ import CourseByCategoryPage from '../Pages/Courses/CoursesByCategoryPage';
 import LessonListPage from '../Pages/Lessons/LessonListPage';
 import LessonDetailsPage from '../Pages/Lessons/LessonDetailsPage';
 import CourseListingPage from '../Pages/Courses/CourseListingPage';
+import Home from '../Pages/Home';
+import About from '../Pages/About';
 
 
 
@@ -26,7 +28,9 @@ const Router = [
     element: <FullLayout />,
     children: [
       { path: '/', element: <Navigate to="/home" /> },
-      { path: '/home', exact: true, element: <CourseListingPage /> },
+      { path: '/home', exact: true, element: <Home /> },
+      { path: '/about', exact: true, element: <About /> },
+      { path: '/course', exact: true, element: <CourseListingPage />  },
       { path: '/coursess', exact: true, element: <CoursesPage /> },
       { path: '/add', exact: true, element: <AddCoursePage /> },
       { path: '/coursess/:courseId', exact: true, element: <CourseDetailPage /> },

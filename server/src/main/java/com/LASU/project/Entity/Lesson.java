@@ -3,28 +3,30 @@ package com.LASU.project.Entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "lesson")
+@Table(name = "lessons")
 public class Lesson {
 
     @Id
     @SequenceGenerator(
-            name = "lesson_sequence",
-            sequenceName = "lesson_sequence",
+            name = "lessons_sequence",
+            sequenceName = "lessons_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "lesson_sequence")
+            generator = "lessons_sequence")
     private Long id;
     private Long courseId;
     private String title;
     private String content;
+    private String videoUrl;
 
-    public Lesson(Long id, Long courseId, String title, String content) {
+    public Lesson(Long id, Long courseId, String title, String content, String videoUrl) {
         this.id = id;
         this.courseId = courseId;
         this.title = title;
         this.content = content;
+        this.videoUrl = videoUrl;
     }
 
     public Lesson() {
@@ -60,5 +62,13 @@ public class Lesson {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 }

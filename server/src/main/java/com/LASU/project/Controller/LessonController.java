@@ -21,14 +21,16 @@ public class LessonController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createLesson(@RequestPart("file") MultipartFile file, @ModelAttribute Lesson lesson) {
+    public ResponseEntity<?> createLesson(@RequestBody Lesson lesson) {
         try {
-            Lesson createdLesson = lessonService.createLesson(lesson, file);
-            return new ResponseEntity<>(createdLesson, HttpStatus.CREATED);
+            lessonService.createLesson(lesson);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (GeneralException e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
+
+
 
     @GetMapping("/{lessonId}")
     public ResponseEntity<?> getLessonById(@PathVariable Long lessonId) {
@@ -60,7 +62,7 @@ public class LessonController {
         }
     }
 
-    @GetMapping("/course/{courseId}")
+    @GetMapping("/courses/{courseId}")
     public ResponseEntity<List<?>> getLessonsByCourseId(@PathVariable Long courseId) {
         try {
             List<Lesson> lessons = lessonService.getLessonsByCourseId(courseId);
@@ -70,3 +72,5 @@ public class LessonController {
         }
     }
 }
+
+

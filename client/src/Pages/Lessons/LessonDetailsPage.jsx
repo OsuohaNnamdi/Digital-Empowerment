@@ -17,7 +17,7 @@ const LessonDetailsPage = () => {
         const courseResponse = await axiosInstance.get(`/courses/${lessonId}`);
         setCourse(courseResponse.data);
 
-        const lessonsResponse = await axiosInstance.get(`/courses/${lessonId}/lessons`);
+        const lessonsResponse = await axiosInstance.get(`/lessons/courses/${lessonId}`);
         setLessons(lessonsResponse.data);
       } catch (error) {
         Swal.fire('Error', 'Unable to fetch course details and lessons', 'error');

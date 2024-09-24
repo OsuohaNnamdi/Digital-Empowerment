@@ -18,7 +18,7 @@ const LessonListPage = ({ courseId }) => {
 
     const fetchLessons = async () => {
         try {
-            const response = await axiosInstance.get(`/courses/${courseId}/lessons`);
+            const response = await axiosInstance.get(`/lessons/courses/${courseId}`);
             setLessons(response.data);
         } catch (error) {
             console.error('Error fetching lessons', error);
