@@ -15,7 +15,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:8080/api/v1/register', { name, email, password });
+            await axios.post('https://courses-api-wkzv.onrender.com/api/v1/register', { name, email, password });
         Swal.fire({
         icon: 'success',
         title: 'Registration Successful',

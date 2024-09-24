@@ -25,7 +25,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
         setLoading(true); // Show spinner
     
         try {
-          const response = await axios.post('http://localhost:8080/api/v1/login', {
+          const response = await axios.post('https://courses-api-wkzv.onrender.com/api/v1/login', {
             email,
             password
           });
