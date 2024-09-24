@@ -12,7 +12,7 @@ import {
   Button,
   Paper,
 } from '@mui/material';
-import { Scrollbars } from 'react-custom-scrollbars';
+import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../views/authentication/axiosInstance';
 

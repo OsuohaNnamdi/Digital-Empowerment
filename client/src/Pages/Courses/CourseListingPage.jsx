@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, Grid, Card, CardContent, CardMedia, Tabs, Tab, Box } from '@mui/material';
-import { Scrollbars } from 'react-custom-scrollbars';
+import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import axiosInstance from '../../views/authentication/axiosInstance';
 

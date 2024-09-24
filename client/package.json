@@ -20,7 +20,7 @@
     "javascript-time-ago": "^2.5.10",
     "moment": "^2.30.1",
     "react": "^18.2.0",
-    "react-custom-scrollbars": "^4.2.1",
+    "react-custom-scrollbars-2": "^4.5.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
     "react-icon": "^1.0.0",
